@@ -13,7 +13,7 @@ socketio = SocketIO(app)
 def handle_post():
     print("count")
     data_request = request.get_json()
-    print(data_request)
+    print("data_request:",data_request)
 
     if 'data' in data_request:
         data_json = json.loads(data_request['data'])
@@ -29,10 +29,7 @@ def handle_post():
 
             data = response.json()
 
-            # Инициализация списка для хранения названий продуктов
-            product_names = []
-
-            product_names = []  # Создаем пустой список для сохранения названий продуктов
+            product_names_str = []  # Создаем пустой список для сохранения названий продуктов
 
             if 'response' in data and isinstance(data['response'], list):
                 for item in data['response']:
@@ -77,19 +74,19 @@ def handle_post():
                                                             print(f"Название продукта: {product_name}")
 
                                                             # Добавляем название продукта в общий список
-                                                            product_names.append(product_name)
+                                                            product_names_str.append(product_name)
 
-                                                    print("Список всех продуктов:", product_names)
+                                                    print("Список всех продуктов:", product_names_str)
 
 
 
             # Теперь вы можете включить product_name в ваше сообщение
                                                     message = f"""
-                                                =================
+                                                =================x
 Заказ № {data["response"][0].get('transaction_id', '')}
 
 Заведение:
-diperSalfetka
+{data_request.get('account', 'нет данных')}
 
 Доставить до:
 {data["response"][0]['delivery'].get('delivery_time', '')}
@@ -119,7 +116,7 @@ diperSalfetka
 
 
 Товары:
-{product_names}
+Заказ содержит следующие продукты: {product_names_str}.
 
 
 К оплате: {data["response"][0]['sum']} €
@@ -131,8 +128,9 @@ diperSalfetka
 
                                                     data = {
                                                         "chat_id": int(username),
-                                                        "message": message
-                                                    }
+                                                        "message": message,
+                                                        "transaction_id": {data["response"][0].get('transaction_id', '')},
+                                                        "spot_id": {data["response"][0].get('spot_id', '')}                                                    }
 
                                                     try:
                                                         socketio.emit('message', data)
@@ -170,7 +168,6 @@ def handle_message(message):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
-
 
 print("123")
 # Витя пидор
