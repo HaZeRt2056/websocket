@@ -82,6 +82,7 @@ def handle_post():
                                                     print("Список всех продуктов:", product_names)
 
 
+
             # Теперь вы можете включить product_name в ваше сообщение
                                                     message = f"""
                                                 =================
@@ -169,3 +170,7 @@ def handle_message(message):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+
+
+print("123")
+# Витя пидор
