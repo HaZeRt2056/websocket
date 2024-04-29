@@ -89,51 +89,50 @@ def handle_post():
                                                 summa = f"{summa}.{'0'.zfill(2)}"
 
 
+
                                             message = f"""
-                                                                                                =================x
-                                                Заказ № {data["response"][0].get('transaction_id', '')}
+=================x
+Заказ № {data["response"][0].get('transaction_id', '')}
 
-                                                Заведение:
-                                                {data_request.get('account', 'нет данных')}
+Заведение:
+{data_request.get('account', 'нет данных')}
 
-                                                Доставить до:
-                                                {data["response"][0]['delivery'].get('delivery_time', '')}
+Доставить до:
+{data["response"][0]['delivery'].get('delivery_time', '')}
 
-                                                Клиент:
-                                                {data["response"][0].get('client_firstname', '')} {data["response"][0].get('client_lastname', '')}
+Клиент:
+{data["response"][0].get('client_firstname', '')} {data["response"][0].get('client_lastname', '')}
 
-                                                Телефон:
-                                                {data['response'][0].get('client_phone', '')}
-
-
-                                                Адрес:
-                                                {data['response'][0]['delivery'].get('address1', '')}
-                                                {data['response'][0]['delivery'].get('address2', '')}
+Телефон:
+{data['response'][0].get('client_phone', '')}
 
 
-                                                Координаты:
-                                                {data["response"][0]['delivery'].get('lat', '')},{data["response"][0]['delivery'].get('lng', '')}
+Адрес:
+{data['response'][0]['delivery'].get('address1', '')}
+{data['response'][0]['delivery'].get('address2', '')}
 
 
-                                                Комментарий курьеру:
-                                                {data['response'][0]['delivery'].get('comment', '')}
+Координаты:
+{data["response"][0]['delivery'].get('lat', '')},{data["response"][0]['delivery'].get('lng', '')}
 
 
-                                                Комментарий к чеку:
-                                                {data["response"][0].get("transaction_comment", '')}
+Комментарий курьеру:
+{data['response'][0]['delivery'].get('comment', '')}
 
 
-                                                Товары:
-                                                Заказ содержит следующие продукты: 
-                                                {product_text}.
+Комментарий к чеку:
+{data["response"][0].get("transaction_comment", '')}
 
 
-                                                К оплате: {summa} 
+Товары:
+{product_text}.
+
+
+К оплате: {summa} 
                                                 
-                                                Метод оплаты: {'Наличные' if data["response"][0]['pay_type'] == '0' else 'Карта' if data["response"][0]['pay_type'] == '1' else 'Другой'}
+Метод оплаты: {'Наличные' if data["response"][0]['pay_type'] == '0' else 'Карта' if data["response"][0]['pay_type'] == '1' else 'Другой'}
                                                 =================
                                                                                             """
-
                                             data = {
                                                     "chat_id": int(username),
                                                     "message": message,
@@ -141,7 +140,7 @@ def handle_post():
                                                     "spot_id": data["response"][0].get('spot_id', ''),
                                                     "spot_tablet_id" : data['response'][0]['history'][0]['spot_tablet_id'],
                                                     "payed_cash":summa,
-                                                    "address": f"{data['response'][0]['delivery'].get('address1', '')} {data['response'][0]['delivery'].get('address2', '')}"
+                                                    "address": f"{data['response'][0]['delivery'].get('country', '')} {data['response'][0]['delivery'].get('city', '')} {data['response'][0]['delivery'].get('address1', '')} {data['response'][0]['delivery'].get('address2', '')}"
                                             }
 
 
