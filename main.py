@@ -11,7 +11,6 @@ socketio = SocketIO(app)
 
 @app.route('/', methods=['POST'])
 def handle_post():
-    print("count")
     data_request = request.get_json()
     print("data_request:",data_request)
 
@@ -156,6 +155,25 @@ def handle_post():
 
     return jsonify(message="POST request received"), 200
 
+
+@app.route("/geo", methods=["POST"])
+def geo():
+    data = request.get_json()
+    chat_id = data.get('chat_id', None)
+
+    if chat_id:
+        print(f"Seng me your location: {chat_id}")
+        text = f"Seng me your location"
+        tata = {
+            "chat_id": int(chat_id),
+            "text": text}
+        try:
+            socketio.emit('text', tata)
+        except json.JSONDecodeError as e:
+            print("Error decoding JSON:", e)
+        return {"message": "Success"}, 200
+    else:
+        return {"error": "chat_id is required"}, 400
 
 @socketio.on('connect')
 def handle_connect():
